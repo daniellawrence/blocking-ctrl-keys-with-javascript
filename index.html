@@ -1,0 +1,101 @@
+<html>
+ <head>
+     <script>
+      function add_key(pressed_key_name) {
+	  var keychord_element = document.getElementById('keychord');
+	  if (keychord.indexOf(pressed_key_name) == -1){
+	      keychord.push(pressed_key_name);
+	  }
+	  keychord_element.innerText = keychord;
+
+	  if (keychord.length > 1) {
+	      var ul = document.getElementById("list");
+	      var li = document.createElement("li");
+	      li.appendChild(document.createTextNode(keychord));
+	      ul.appendChild(li);
+	  }
+
+      }
+
+      function remove_key(pressed_key_name) {
+	  var keychord_element = document.getElementById('keychord');
+
+	  for (var i = keychord.length; i--;) {
+	      if(keychord[i] === pressed_key_name) {
+		  keychord.splice(i, 1);
+	      }
+	  }
+
+	  keychord_element.innerText = keychord;
+
+      }
+
+      var keychord = [];
+      var isCtrl = false;
+      var isMeta = false;
+      var isShift = false;
+
+      document.onkeyup = function(e)
+      {
+
+	  var key_name = e.key;
+	  if(e.key == 'Ctrl') {
+	      isCtrl = false;
+	  }
+
+	  if(e.key == 'Alt') {
+	      isMeta = false;
+	  }
+
+	  if(e.key == 'Shift') {
+	      isShift = false;
+	  }
+
+	  remove_key(key_name);
+	  remove_key(key_name.toUpperCase());
+	  remove_key(key_name.toLowerCase());
+
+      }
+      
+      
+      document.onkeydown = function(e)
+      {
+	  var key_name = e.key;
+	  
+	  if(e.key == 'Ctrl') {
+	      isCtrl = true;
+	  }
+
+	  if(e.key == 'Alt') {
+	      isMeta = true;
+	  }
+	  
+	  if(e.key == 'Shift') {
+	      isShift = true;
+	      key_name = undefined;
+	  }
+
+	  if (key_name !== undefined) {
+	      console.log(key_name);
+	      add_key(key_name);
+	  }
+
+	  return false;
+
+      }
+
+     </script>
+ </head>
+ <body>
+     <h1>blocking ctrl keys with javascript</h1>
+     <code id="keychord">keys..</code>
+     <ul id="list"></ul>
+     <h3>TODO</h3>
+     <ul>
+	 <li>C-q</li>
+	 <li>C-w</li>
+	 <li>C-t</li>
+	 <li>C-n</li>
+     </ul>
+ </body>
+</html>
